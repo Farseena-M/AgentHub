@@ -35,7 +35,7 @@ interface DistributedTask {
     tasks: any[];
 }
 
-export const distributeTasks = async (req: Request, res: Response): Promise<Response> => {
+export const distributeTasks = async (req: Request, res: Response): Promise<any> => {
     try {
         await uploadAsync(req, res);
 

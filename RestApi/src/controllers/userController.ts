@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { User } from '../models/userSchema.js';
-import { generateToken } from '../utils/generateToken.js';
+import { generateToken } from '../utils/generateToken';
+import { User } from '../models/userSchema';
 
 
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response): Promise<any> => {
     try {
         const { email, password } = req.body;
 
@@ -27,7 +27,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response): Promise<any> => {
     try {
         const { email, password } = req.body;
 
