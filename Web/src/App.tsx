@@ -1,35 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500">
+      <div className="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full">
+        <h1 className="text-4xl font-bold text-center text-purple-700 mb-6">Welcome to My App</h1>
+        <p className="text-gray-600 text-center text-lg mb-6">
+          This is a beautiful UI built with Tailwind CSS. Enjoy exploring the features!
         </p>
+        <div className="flex justify-center">
+          <button className="bg-purple-600 text-white py-2 px-6 rounded-full hover:bg-purple-700 transition duration-300 ease-in-out">
+            Get Started
+          </button>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
