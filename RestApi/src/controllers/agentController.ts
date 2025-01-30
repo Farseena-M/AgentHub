@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import { Agent } from '../models/agentSchema';
 import { Task } from '../models/taskSchema';
 
+
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -45,6 +46,10 @@ interface DistributedTask {
     agent: { _id: string; name: string };
     tasks: any[];
 }
+
+
+//distributed tasks for each agents sequentially
+
 
 export const distributeTasks = async (req: Request, res: Response): Promise<any> => {
     try {
