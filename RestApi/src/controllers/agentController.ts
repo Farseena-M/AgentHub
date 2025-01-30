@@ -4,6 +4,7 @@ import fs from 'fs';
 import util from 'util';
 import { Request, Response } from 'express';
 import { Agent } from '../models/agentSchema';
+import { Task } from '../models/taskSchema';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -46,25 +47,43 @@ export const distributeTasks = async (req: Request, res: Response): Promise<any>
         const filePath = req.file.path;
         const workbook = xlsx.readFile(filePath);
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = xlsx.utils.sheet_to_json(sheet);
+        const jsonData = xlsx.utils.sheet_to_json<{ FirstName: string; Phone: number; Notes: string }>(sheet);
 
-        const agents = await Agent.find();
+        if (!jsonData.length || !jsonData[0]['FirstName'] || !jsonData[0]['Phone'] || !jsonData[0]['Notes']) {
+            fs.unlinkSync(filePath);
+            return res.status(400).json({ message: 'Invalid CSV format. Must contain FirstName, Phone, Notes' });
+        }
+
+        const agents = await Agent.find().limit(5);
         if (agents.length === 0) {
             return res.status(400).json({ message: 'No agents found' });
         }
 
-        const tasksPerAgent = Math.floor(jsonData.length / agents.length);
         let distributedTasks: DistributedTask[] = [];
+        let index = 0;
 
-        agents.forEach((agent, index) => {
-            const start = index * tasksPerAgent;
-            const end = start + tasksPerAgent;
-            const agentTasks = jsonData.slice(start, end);
-            distributedTasks.push({ agent, tasks: agentTasks });
+        jsonData.forEach((task: any) => {
+            const agent = agents[index % agents.length];
+            if (!distributedTasks[index % agents.length]) {
+                distributedTasks[index % agents.length] = { agent, tasks: [] };
+            }
+            distributedTasks[index % agents.length].tasks.push(task);
+            index++;
         });
 
+        for (const item of distributedTasks) {
+            for (const task of item.tasks) {
+                await Task.create({
+                    agentId: item.agent._id,
+                    firstName: task.FirstName,
+                    phone: task.Phone,
+                    notes: task.Notes
+                });
+            }
+        }
+
         fs.unlinkSync(filePath);
-        return res.status(200).json(distributedTasks);
+        return res.status(200).json({ message: 'Tasks distributed successfully', data: distributedTasks });
     } catch (err: unknown) {
         if (err instanceof Error) {
             return res.status(500).json({ message: err.message });
@@ -72,3 +91,22 @@ export const distributeTasks = async (req: Request, res: Response): Promise<any>
         return res.status(500).json({ message: 'An unexpected error occurred' });
     }
 };
+
+
+
+
+
+// export const getAgentTasks = async (req: Request, res: Response) => {
+//     try {
+//         const agents = await Agent.find();
+//         const data = await Promise.all(agents.map(async (agent) => {
+//             const tasks = await Task.find({ agentId: agent._id });
+//             return { agent, tasks };
+//         }));
+
+//         res.status(200).json(data);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
