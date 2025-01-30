@@ -2,8 +2,10 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/generateToken';
 import { User } from '../models/userSchema';
+import { Agent } from '../models/agentSchema';
 
 
+//user register
 
 export const registerUser = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -25,7 +27,7 @@ export const registerUser = async (req: Request, res: Response): Promise<any> =>
     }
 };
 
-
+//user login
 
 export const loginUser = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -48,3 +50,42 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
         });
     }
 };
+
+
+//create user to the agents
+
+export const addAgent = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const { name, email, mobileNumber, password } = req.body;
+
+        if (!name || !email || !mobileNumber || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        const existingAgent = await Agent.findOne({
+            $or: [{ email }, { mobileNumber }]
+        });
+
+        if (existingAgent) {
+            return res.status(400).json({ message: 'Agent with this email or mobile number already exists' });
+        }
+
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newAgent = new Agent({
+            name,
+            email,
+            mobileNumber,
+            password: hashedPassword,
+        });
+
+        await newAgent.save();
+
+        return res.status(201).json({ message: 'Agent added successfully', data: newAgent });
+    } catch (error) {
+        console.error('Error adding agent:', error);
+        return res.status(500).json({ message: 'An error occurred while adding the agent' });
+    }
+};
+

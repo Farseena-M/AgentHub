@@ -1,17 +1,27 @@
 import multer from 'multer';
 import xlsx from 'xlsx';
 import fs from 'fs';
+import path from 'path';
 import util from 'util';
 import { Request, Response } from 'express';
 import { Agent } from '../models/agentSchema';
 import { Task } from '../models/taskSchema';
 
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+//multer configuration
+
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+        const safeFilename = file.originalname.replace(/\s+/g, '_');
+        cb(null, `${Date.now()}-${safeFilename}`);
     },
 });
 
@@ -91,22 +101,4 @@ export const distributeTasks = async (req: Request, res: Response): Promise<any>
         return res.status(500).json({ message: 'An unexpected error occurred' });
     }
 };
-
-
-
-
-
-// export const getAgentTasks = async (req: Request, res: Response) => {
-//     try {
-//         const agents = await Agent.find();
-//         const data = await Promise.all(agents.map(async (agent) => {
-//             const tasks = await Task.find({ agentId: agent._id });
-//             return { agent, tasks };
-//         }));
-
-//         res.status(200).json(data);
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// };
 

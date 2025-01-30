@@ -11,7 +11,7 @@ declare global {
     }
 }
 
-export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
