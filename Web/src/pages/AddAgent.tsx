@@ -33,8 +33,8 @@ const AddAgent = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-teal-300 to-teal-500">
-            <div className="bg-white shadow-xl rounded-lg p-8 w-full sm:w-96 md:w-1/2 lg:w-1/3 relative"> 
+        <div className="min-h-screen p-8 text-white relative flex flex-col items-center justify-center bg-gradient-to-r from-teal-500 to-teal-800">
+            <div className="bg-white shadow-xl rounded-lg p-8 w-full sm:w-96 md:w-1/2 lg:w-1/3 relative">
                 <button
                     onClick={() => Nvgt('/dashboard')}
                     className="absolute top-4 right-4 text-teal-600 text-xl hover:text-teal-800 transition duration-300"
@@ -77,6 +77,7 @@ const AddAgent = () => {
                                 inputClass="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
                                 buttonClass="focus:outline-none"
                                 containerClass="w-full"
+                                dropdownClass="text-black"
                             />
                         </div>
                     </div>

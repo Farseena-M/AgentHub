@@ -107,3 +107,26 @@ export const distributeTasks = async (req: Request, res: Response): Promise<any>
     }
 };
 
+
+
+//fetch agents and their tasks
+
+export const getDistributedTasks = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const agents = await Agent.find();
+        const tasks = await Task.find();
+
+        const agentTasks = agents.map(agent => {
+            const agentRelatedTasks = tasks.filter(task => task.agentId.toString() === agent._id.toString());
+            return {
+                ...agent.toObject(),
+                tasks: agentRelatedTasks
+            };
+        });
+
+        res.json({ data: agentTasks });
+    } catch (error) {
+        console.error('Error fetching agents and tasks:', error);
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+};
