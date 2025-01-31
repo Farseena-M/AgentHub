@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiMail, FiLock } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -21,8 +22,9 @@ const Login = () => {
             const { token } = response.data;
             localStorage.setItem('token', token);
             Nvgt('/dashboard');
+            toast.success(`Login Success`)
         } catch (error: any) {
-            setError(error.response?.data?.message || 'Something went wrong');
+            toast.error(error.response?.data?.message || 'Something went wrong');
         } finally {
             setLoading(false);
         }

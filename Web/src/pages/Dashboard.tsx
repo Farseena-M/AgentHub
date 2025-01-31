@@ -4,6 +4,7 @@ import { FaUserPlus, FaUpload, FaTasks } from 'react-icons/fa';
 import Image from '../assets/download.png';
 import { useState, useRef } from 'react';
 import { axiosInstance } from '../axios/axiosInstance';
+import { toast } from 'react-toastify';
 
 const Dashboard = () => {
     const Nvgt = useNavigate();
@@ -11,6 +12,7 @@ const Dashboard = () => {
     const Logout = () => {
         localStorage.removeItem('token');
         Nvgt('/');
+        toast.success(`Logout Success`)
     };
 
     const [file, setFile] = useState<File | null>(null);
@@ -42,13 +44,12 @@ const Dashboard = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(response.data.data);
-
             setSuccess('File uploaded successfully');
             setFile(null);
             Nvgt('/view-agents-tasks', { state: { agentsData: response.data.data } });
+            toast.success(`File Uploaded Successfull`)
         } catch (err) {
-            console.log('Error uploading file');
+            toast.error('Error uploading file');
         } finally {
             setLoading(false);
         }

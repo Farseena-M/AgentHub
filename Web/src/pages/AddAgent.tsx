@@ -4,6 +4,7 @@ import 'react-phone-input-2/lib/style.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../axios/axiosInstance';
+import { toast } from 'react-toastify';
 
 const AddAgent = () => {
     const [name, setName] = useState('');
@@ -25,8 +26,9 @@ const AddAgent = () => {
             setEmail('');
             setMobileNumber('');
             setPassword('');
+            toast.success(`Agent added successfull`)
         } catch (error: any) {
-            setError(error.response?.data?.message || 'Something went wrong');
+            toast.error(error.response?.data?.message || 'Something went wrong');
         } finally {
             setLoading(false);
         }
@@ -62,7 +64,7 @@ const AddAgent = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none text-black"
                             placeholder="Enter agent email"
                         />
                     </div>
