@@ -11,6 +11,9 @@ declare global {
     }
 }
 
+
+//Verify Token using jwt
+
 export const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const token = req.headers.authorization?.split(' ')[1];
 

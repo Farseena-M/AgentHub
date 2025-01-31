@@ -64,7 +64,7 @@ const Dashboard = () => {
     return (
         <div className="min-h-screen p-8 text-white relative flex flex-col items-center justify-center bg-gradient-to-r from-teal-600 to-teal-900">
             <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${Image})` }} />
-            <FiLogOut className="text-2xl absolute top-4 right-4 text-white c hover:text-teal-300 transition duration-300" onClick={Logout} title='Logout' />
+            <FiLogOut className="text-2xl absolute top-4 right-4 text-white c hover:text-teal-300 transition duration-300 cursor-pointer" onClick={Logout} title='Logout' />
 
             <div className="w-full md:w-2/3 text-center relative z-10">
                 <div className="flex flex-col items-center mb-8">

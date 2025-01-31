@@ -51,7 +51,7 @@ const AddAgent = () => {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none text-black"
                             placeholder="Enter agent name"
                         />
                     </div>
@@ -74,7 +74,7 @@ const AddAgent = () => {
                                 country={'us'}
                                 value={mobileNumber}
                                 onChange={setMobileNumber}
-                                inputClass="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                inputClass="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none text-black"
                                 buttonClass="focus:outline-none"
                                 containerClass="w-full"
                                 dropdownClass="text-black"
@@ -87,7 +87,7 @@ const AddAgent = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none text-black"
                             placeholder="Enter password"
                         />
                     </div>
