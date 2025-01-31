@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FiMail, FiLock } from 'react-icons/fi';
 
 const Login = () => {
@@ -9,6 +9,7 @@ const Login = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const Nvgt = useNavigate();
+    const baseURL = import.meta.env.VITE_API_URL
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -16,7 +17,7 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:3001/user/login', { email, password });
+            const response = await axios.post(`${baseURL}/user/login`, { email, password });
             const { token } = response.data;
             localStorage.setItem('token', token);
             Nvgt('/dashboard');

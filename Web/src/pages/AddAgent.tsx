@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../axios/axiosInstance';
 
 const AddAgent = () => {
     const [name, setName] = useState('');
@@ -20,7 +20,7 @@ const AddAgent = () => {
         setError('');
 
         try {
-            await axios.post('http://localhost:3001/user/create-agent', { name, email, mobileNumber, password });
+            await axiosInstance.post('/user/create-agent', { name, email, mobileNumber, password });
             setName('');
             setEmail('');
             setMobileNumber('');

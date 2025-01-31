@@ -2,8 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import { FaUserPlus, FaUpload, FaTasks } from 'react-icons/fa';
 import Image from '../assets/download.png';
-import axios from 'axios';
 import { useState, useRef } from 'react';
+import { axiosInstance } from '../axios/axiosInstance';
 
 const Dashboard = () => {
     const Nvgt = useNavigate();
@@ -37,7 +37,7 @@ const Dashboard = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:3001/agent/distribute', formData, {
+            const response = await axiosInstance.post('/agent/distribute', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -60,10 +60,11 @@ const Dashboard = () => {
         }
     };
 
+
     return (
         <div className="min-h-screen p-8 text-white relative flex flex-col items-center justify-center bg-gradient-to-r from-teal-600 to-teal-900">
             <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${Image})` }} />
-            <FiLogOut className="text-2xl absolute top-4 right-4 text-white cursor-pointer hover:text-teal-300 transition duration-300" onClick={Logout} title='Logout' />
+            <FiLogOut className="text-2xl absolute top-4 right-4 text-white c hover:text-teal-300 transition duration-300" onClick={Logout} title='Logout' />
 
             <div className="w-full md:w-2/3 text-center relative z-10">
                 <div className="flex flex-col items-center mb-8">
@@ -83,12 +84,12 @@ const Dashboard = () => {
                         </Link>
                     </div>
                     <div className="bg-white p-6 rounded-xl shadow-lg text-center transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                        <FaUpload className="text-4xl text-teal-700 mx-auto" />
+                        <FaUpload className="text-4xl text-teal-700 mx-auto cursor-pointer" onClick={handleFileUploadClick}
+                        />
                         <h2 className="text-2xl font-semibold text-teal-700 mt-4">Upload Files</h2>
                         <p className="text-gray-600 mt-2 mb-4">Upload agent-related files for management.</p>
                         <form onSubmit={handleSubmit} className="flex justify-center items-center flex-col">
                             <button
-                                onClick={handleFileUploadClick}
                                 className="mt-4 bg-teal-700 text-white px-5 py-3 rounded-lg hover:bg-teal-800 transition duration-300"
                             >
                                 Upload New File

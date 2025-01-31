@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaEnvelope, FaTasks, FaArrowLeft } from "react-icons/fa";
-import axios from "axios";
+import { axiosInstance } from "../axios/axiosInstance";
 
 const ViewAgentsTasks = () => {
     const Nvgt = useNavigate()
@@ -12,7 +12,7 @@ const ViewAgentsTasks = () => {
 
     const fetchAgentsData = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/agent/tasks');
+            const response = await axiosInstance.get('/agent/tasks');
             if (response.data && response.data.data) {
                 setAgentsData(response.data.data);
             } else {
@@ -68,7 +68,7 @@ const ViewAgentsTasks = () => {
 
                                 <div className="flex justify-center items-center">
                                     <h3
-                                        className="text-xl text-teal-700 flex items-center cursor-pointer font-medium"
+                                        className="text-xl text-teal-700 flex items-center cursor-pointer font-serif"
                                         onClick={() => handleTaskIconClick(agent)}>
                                         <FaTasks className="text-teal-500 mr-2" />
                                         View Tasks
@@ -86,11 +86,11 @@ const ViewAgentsTasks = () => {
             {isModalOpen && selectedAgent && (
                 <div className="fixed inset-0 bg-teal-700 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
-                        <h2 className="text-2xl font-semibold text-teal-700 mb-4">Tasks for {selectedAgent.name}</h2>
+                        <h2 className="text-2xl font-semibold text-teal-700 mb-4 text-center font-serif">Tasks for {selectedAgent.name}</h2>
 
                         {selectedAgent.tasks && selectedAgent.tasks.length > 0 ? (
                             <div className="max-h-80 overflow-y-auto">
-                                <ul className="space-y-4">
+                                <ul className="space-y-4 text-center">
                                     {selectedAgent.tasks.map((task: any, index: number) => (
                                         <li key={index} className="p-4 bg-teal-50 rounded-md shadow-sm">
                                             <p className="text-teal-600 font-medium">
@@ -107,7 +107,7 @@ const ViewAgentsTasks = () => {
                                 </ul>
                             </div>
                         ) : (
-                            <p className="text-teal-500">No tasks available</p>
+                            <p className="text-teal-500 text-center ">No tasks available</p>
                         )}
 
                         <button
